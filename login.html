@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CropGuard AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page-body min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Logo and Title -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+                <i class="fas fa-leaf text-3xl text-green-600"></i>
+            </div>
+            <h1 class="text-3xl font-bold logo-text mb-2">CropGuard AI</h1>
+            <p class="text-gray-600">Welcome back! Please login to your account.</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-card rounded-2xl p-8 shadow-xl">
+            <form id="loginForm" class="space-y-6">
+                <!-- Phone/Email Field -->
+                <div>
+                    <label for="loginIdentifier" class="block text-sm font-medium text-gray-700 mb-2">
+                        Phone Number or Email
+                    </label>
+                    <input 
+                        type="text" 
+                        id="loginIdentifier" 
+                        name="loginIdentifier"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300"
+                        placeholder="Enter your phone or email"
+                        required
+                    >
+                    <div id="loginIdentifierError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            name="loginPassword"
+                            class="w-full px-4 py-3 pr-12 form-input rounded-lg focus:outline-none transition-all duration-300"
+                            placeholder="Enter your password"
+                            required
+                        >
+                        <button 
+                            type="button" 
+                            id="loginPasswordToggle"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="loginPasswordError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="rememberMe" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                        <span class="ml-2 text-sm text-gray-700">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm link-hover font-medium">Forgot password?</a>
+                </div>
+
+                <!-- Login Button -->
+                <button 
+                    type="submit" 
+                    id="loginSubmitBtn"
+                    class="w-full btn-primary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300"
+                >
+                    <span id="loginBtnText">Login</span>
+                    <i id="loginBtnIcon" class="fas fa-sign-in-alt ml-2"></i>
+                </button>
+            </form>
+
+            <!-- Sign Up Link -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">
+                    Don't have an account? 
+                    <a href="signup.html" class="link-hover font-semibold">Sign up here</a>
+                </p>
+            </div>
+
+            <!-- Demo Notice -->
+            <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-green-600 mr-2"></i>
+                    <p class="text-sm text-green-800">
+                        <strong>Demo Mode:</strong> This is a frontend-only demo. Clicking "Login" will take you to the main app without authentication.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>

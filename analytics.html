@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CropAI | Analytics</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css">
+</head>
+<body class="min-h-screen">
+  <div id="navbar-container"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('components/navbar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('navbar-container').innerHTML = html;
+          // Dynamically load navbar.js after navbar is injected
+          var script = document.createElement('script');
+          script.src = 'assets/js/navbar.js';
+          document.body.appendChild(script);
+        });
+      // Settings modal
+      fetch('components/settings.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('settings-container').innerHTML = html;
+        });
+    });
+  </script>
+  <div id="settings-container"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('components/settings.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('settings-container').innerHTML = html;
+        });
+    });
+  </script>
+  <script src="assets/js/settings.js"></script>
+  <div class="analytics-layout">
+    <!-- Sidebar Navigation Tabs -->
+  <aside class="analytics-sidebar" style="background:#19ad50;">
+      <div class="sidebar-title">CropAI Analytics</div>
+      <nav class="sidebar-tabs">
+        <button class="sidebar-tab active" data-tab="overview"><i class="fas fa-th-large mr-2"></i>Overview</button>
+        <button class="sidebar-tab" data-tab="disease"><i class="fas fa-virus mr-2"></i>Disease Analytics</button>
+
+        <button class="sidebar-tab" data-tab="engagement"><i class="fas fa-users mr-2"></i>Farmer Engagement</button>
+        <button class="sidebar-tab" data-tab="compare"><i class="fas fa-exchange-alt mr-2"></i>Comparison Tool</button>
+        <button class="sidebar-tab" data-tab="export"><i class="fas fa-file-export mr-2"></i>Reports & Export</button>
+      </nav>
+    </aside>
+    <!-- Main Dashboard Content -->
+    <main class="analytics-main">
+      <!-- Global Filters -->
+      <section class="analytics-header mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
+          <div>
+            <h1 class="text-2xl font-bold mb-1" style="color:#5D7C3A;">Analytics Hub</h1>
+            <p class="text-gray-700 text-base">Insights on Crops, Diseases, and Yields</p>
+          </div>
+          <div class="flex flex-wrap gap-2 items-center">
+            <select class="analytics-filter" id="filter-date-range">
+              <option>Today</option>
+              <option>This Week</option>
+              <option>This Month</option>
+              <option>Custom</option>
+            </select>
+            <select class="analytics-filter" id="filter-crop-type">
+              <option>All Crops</option>
+              <option>Maize</option>
+              <option>Wheat</option>
+              <option>Rice</option>
+            </select>
+            <select class="analytics-filter" id="filter-region">
+              <option>All Regions</option>
+              <option>Western</option>
+              <option>Rift Valley</option>
+              <option>Central</option>
+            </select>
+            <button class="btn-secondary px-4 py-2 rounded" id="exportPDF">Export PDF</button>
+            <button class="btn-secondary px-4 py-2 rounded" id="exportCSV">Export CSV</button>
+          </div>
+        </div>
+      </section>
+      <!-- Modular Dashboard Panels (tab content) -->
+      <section id="dashboard-panels">
+        <!-- Panels will be loaded here by JS based on selected tab -->
+      </section>
+      <!-- Empty State UX -->
+      <section id="emptyState" class="hidden text-center py-12 text-gray-500">
+        <i class="fas fa-chart-bar text-5xl mb-3 text-gray-400"></i>
+        <p>No reports yet — encourage farmers to submit!</p>
+      </section>
+    </main>
+  </div>
+  <script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+  <script src="assets/js/analytics.js"></script>
+  <!-- Replace MapTiler key in analytics.js for production -->
+</body>
+</html>

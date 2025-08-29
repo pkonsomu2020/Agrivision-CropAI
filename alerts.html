@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CropAI | Disease Alerts</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('components/navbar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('navbar-container').innerHTML = html;
+          // Dynamically load navbar.js after navbar is injected
+          var script = document.createElement('script');
+          script.src = 'assets/js/navbar.js';
+          document.body.appendChild(script);
+        });
+      // Settings modal
+      fetch('components/settings.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('settings-container').innerHTML = html;
+        });
+    });
+  </script>
+  <div id="settings-container"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('components/settings.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('settings-container').innerHTML = html;
+        });
+    });
+  </script>
+  <script src="assets/js/settings.js"></script>
+  <div class="alerts-layout">
+    <div class="alerts-header">
+      <div class="alerts-banner" id="alertsBanner" style="position:relative;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div class="alerts-banner-content">
+          <div class="alerts-banner-title" id="bannerTitle">Critical: Maize Rust Outbreak in Western Region</div>
+          <div class="alerts-banner-meta" id="bannerMeta">15 cases in 24h • Severity: <span class="badge badge-critical">Critical</span> • 2km radius</div>
+        </div>
+        <div style="position:relative;">
+          <button class="btn-secondary px-4 py-2 rounded" id="shareBanner"><i class="fas fa-share-alt mr-2"></i>Share</button>
+          <div class="alerts-share-menu" id="shareMenu">
+            <button id="shareWhatsApp"><i class="fab fa-whatsapp mr-2"></i>WhatsApp</button>
+            <button id="shareTelegram"><i class="fab fa-telegram mr-2"></i>Telegram</button>
+            <button id="shareEmail"><i class="fas fa-envelope mr-2"></i>Email</button>
+            <button id="shareCopy"><i class="fas fa-link mr-2"></i>Copy Link</button>
+          </div>
+        </div>
+      </div>
+      <div class="alerts-filters">
+        <select class="analytics-filter" id="filter-crop">
+          <option value="All">All Crops</option>
+          <option value="Maize">Maize</option>
+          <option value="Wheat">Wheat</option>
+          <option value="Rice">Rice</option>
+        </select>
+        <select class="analytics-filter" id="filter-severity">
+          <option value="All">All Severities</option>
+          <option value="Critical">Critical</option>
+          <option value="Warning">Warning</option>
+          <option value="Info">Info</option>
+        </select>
+        <select class="analytics-filter" id="filter-time">
+          <option value="24h">Last 24h</option>
+          <option value="7d">Last 7 days</option>
+          <option value="30d">Last 30 days</option>
+          <option value="all">All Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="alerts-main">
+      <div class="alerts-cards" id="alertsCards">
+        <!-- Alert cards will be loaded here by JS -->
+      </div>
+      <div class="alerts-map">
+        <div class="alerts-map-header">
+          Map View <span style="font-weight:400;font-size:0.95rem;color:#64748b;">(clustered)</span>
+          <select class="analytics-filter alerts-map-style" id="mapStyleSwitcher">
+            <option value="street">Street</option>
+            <option value="satellite">Satellite</option>
+            <option value="terrain">Terrain</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div id="alertsMap" class="alerts-map-view"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+  <script src="assets/js/alerts.js"></script>
+</body>
+</html>

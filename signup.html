@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CropGuard AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="signup-page-body min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-lg">
+        <!-- Logo and Title -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+                <i class="fas fa-leaf text-3xl text-green-600"></i>
+            </div>
+            <h1 class="text-3xl font-bold logo-text mb-2">CropGuard AI</h1>
+            <p class="text-gray-600">Join our farming community! Create your account.</p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="login-card rounded-2xl p-8 shadow-xl">
+            <form id="signupForm" class="space-y-6">
+                <!-- Full Name -->
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">
+                        Full Name <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300"
+                        placeholder="Enter your full name"
+                        required
+                    >
+                    <div id="fullNameError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Phone Number -->
+                <div>
+                    <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-2">
+                        Phone Number <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="phoneNumber" 
+                        name="phoneNumber"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300"
+                        placeholder="Enter your phone number"
+                        required
+                    >
+                    <div id="phoneNumberError" class="error-message hidden"></div>
+                    <p class="text-xs text-gray-500 mt-1">Primary contact for SMS verification</p>
+                </div>
+
+                <!-- Email Address (Optional) -->
+                <div>
+                    <label for="emailAddress" class="block text-sm font-medium text-gray-700 mb-2">
+                        Email Address <span class="text-gray-500 text-xs">(Optional)</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="emailAddress" 
+                        name="emailAddress"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300"
+                        placeholder="Enter your email address"
+                    >
+                    <div id="emailAddressError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Location -->
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
+                        Location <span class="text-red-500">*</span>
+                    </label>
+                    <select 
+                        id="location" 
+                        name="location"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300 select-custom"
+                        required
+                    >
+                        <option value="">Select your location</option>
+                        <option value="nairobi">Nairobi</option>
+                        <option value="mombasa">Mombasa</option>
+                        <option value="kisumu">Kisumu</option>
+                        <option value="nakuru">Nakuru</option>
+                        <option value="eldoret">Eldoret</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div id="locationError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Preferred Language -->
+                <div>
+                    <label for="preferredLanguage" class="block text-sm font-medium text-gray-700 mb-2">
+                        Preferred Language <span class="text-red-500">*</span>
+                    </label>
+                    <select 
+                        id="preferredLanguage" 
+                        name="preferredLanguage"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300 select-custom"
+                        required
+                    >
+                        <option value="">Select your preferred language</option>
+                        <option value="english">English</option>
+                        <option value="swahili">Swahili</option>
+                    </select>
+                    <div id="preferredLanguageError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Crop Types -->
+                <div>
+                    <label for="cropTypes" class="block text-sm font-medium text-gray-700 mb-2">
+                        Crop Type(s) <span class="text-red-500">*</span>
+                    </label>
+                    <select 
+                        id="cropTypes" 
+                        name="cropTypes"
+                        class="w-full px-4 py-3 form-input rounded-lg focus:outline-none transition-all duration-300 select-custom"
+                        required
+                    >
+                        <option value="">Select your crop types</option>
+                        <option value="maize">Maize</option>
+                        <option value="beans">Beans</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="tea">Tea</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="rice">Rice</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div id="cropTypesError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                        Password <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="signupPassword" 
+                            name="signupPassword"
+                            class="w-full px-4 py-3 pr-12 form-input rounded-lg focus:outline-none transition-all duration-300"
+                            placeholder="Create a password (min. 6 characters)"
+                            required
+                        >
+                        <button 
+                            type="button" 
+                            id="signupPasswordToggle"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="signupPasswordError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                        Confirm Password <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword"
+                            class="w-full px-4 py-3 pr-12 form-input rounded-lg focus:outline-none transition-all duration-300"
+                            placeholder="Confirm your password"
+                            required
+                        >
+                        <button 
+                            type="button" 
+                            id="confirmPasswordToggle"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="confirmPasswordError" class="error-message hidden"></div>
+                </div>
+
+                <!-- Terms and Privacy Consent -->
+                <div class="flex items-start">
+                    <input 
+                        type="checkbox" 
+                        id="termsConsent" 
+                        name="termsConsent"
+                        class="checkbox-custom w-4 h-4 mt-1 mr-3 border-gray-300 rounded focus:ring-green-500"
+                        required
+                    >
+                    <label for="termsConsent" class="text-sm text-gray-700">
+                        I agree to the <a href="#" class="link-hover font-medium">Terms of Service</a> and <a href="#" class="link-hover font-medium">Privacy Policy</a> <span class="text-red-500">*</span>
+                    </label>
+                </div>
+                <div id="termsConsentError" class="error-message hidden"></div>
+
+                <!-- Create Account Button -->
+                <button 
+                    type="submit" 
+                    id="signupSubmitBtn"
+                    class="w-full btn-primary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300"
+                >
+                    <span id="signupBtnText">Create Account</span>
+                    <i id="signupBtnIcon" class="fas fa-user-plus ml-2"></i>
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">
+                    Already have an account? 
+                    <a href="login.html" class="link-hover font-semibold">Login here</a>
+                </p>
+            </div>
+
+            <!-- Demo Notice -->
+            <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-green-600 mr-2"></i>
+                    <p class="text-sm text-green-800">
+                        <strong>Demo Mode:</strong> This is a frontend-only demo. After signup, you'll be redirected to login.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>

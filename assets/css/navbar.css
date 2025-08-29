@@ -1,0 +1,362 @@
+/* navbar.css - Styles for CropAI Navbar */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 2000;
+  background: #19ad50;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(93,124,58,0.07);
+  transition: background 0.3s;
+  height: 64px; /* Match index.html header height */
+}
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem;
+  height: 64px; /* Ensure inner matches navbar height */
+}
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+}
+.navbar-logo i {
+  color: #b6e388;
+  margin-right: 0.5rem;
+}
+#navbar-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+#navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+#navbar-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.4rem;
+  transition: background 0.2s, color 0.2s;
+}
+#navbar-links a:hover, #navbar-links a.active {
+  background: rgba(255,255,255,0.18);
+  color: #FFD93D;
+}
+#navbar-links .navbar-alert {
+  position: relative;
+}
+#alert-badge {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: -8px;
+  background: #FF6B6B;
+  color: #fff;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#languageSelector {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.95rem;
+  margin-right: 0.5rem;
+}
+#settingsBtn {
+  color: #fff;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+#settingsBtn:hover {
+  background: rgba(255,255,255,0.18);
+}
+/* Utility for main content margin below navbar */
+.mt-navbar {
+  margin-top: 64px;
+}
+
+/* Prevent horizontal overflow and wrap content */
+body, html {
+  overflow-x: hidden;
+}
+
+.main-layout, .container, .map-section, .side-panel, .outbreaks-list {
+  max-width: 100vw;
+  box-sizing: border-box;
+  word-break: break-word;
+  flex-wrap: wrap;
+}
+@media (max-width: 900px) {
+  .navbar-inner {
+    padding: 0.5rem 0.7rem;
+  }
+}
+@media (max-width: 700px) {
+  #navbar-hamburger {
+    display: block !important;
+    z-index: 2100;
+    position: relative;
+  }
+  #navbar-links {
+    display: none;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: #5D7C3A;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(93,124,58,0.13);
+    z-index: 1200;
+    animation: none;
+    transition: none;
+  }
+  #navbar-links.open {
+    display: flex;
+    animation: navbarSlideDown 0.32s cubic-bezier(.77,0,.18,1);
+  }
+  @keyframes navbarSlideDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: none; }
+  }
+  body.nav-open {
+    overflow: hidden;
+  }
+  .navbar, .navbar-inner {
+    height: 56px;
+  }
+  .mt-navbar {
+    margin-top: 56px;
+  }
+}
+
+/* =====================
+   Geotagging Add Outbreak Modal Styles
+   ===================== */
+.geo-modal-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.geo-modal-card {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(93,124,58,0.13);
+  max-width: 420px;
+  width: 95vw;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  position: relative;
+  animation: geoModalIn 0.25s cubic-bezier(.77,0,.18,1);
+}
+@keyframes geoModalIn {
+  from { transform: translateY(40px) scale(0.98); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.geo-modal-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #5D7C3A;
+}
+.geo-modal-card label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #5D7C3A;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+.geo-modal-card input,
+.geo-modal-card select,
+.geo-modal-card textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #E9EBDE;
+  font-size: 1rem;
+  background: #f7f7f2;
+  transition: border 0.2s;
+}
+.geo-modal-card input:focus,
+.geo-modal-card select:focus,
+.geo-modal-card textarea:focus {
+  border: 1.5px solid #8BAA61;
+  outline: none;
+}
+.geo-modal-card button[type="submit"] {
+  background: #5D7C3A;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 0;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+  width: 100%;
+}
+.geo-modal-card button[type="submit"]:hover {
+  background: #4a6330;
+}
+.geo-modal-card .close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.3rem;
+  background: none;
+  border: none;
+  color: #5D7C3A;
+  cursor: pointer;
+}
+.geo-modal-card .geo-modal-note {
+  font-size: 0.92rem;
+  color: #888;
+  margin-top: 0.7rem;
+}
+
+/* =====================
+   Geotagging Filter Bar
+   ===================== */
+.geo-filter-bar {
+  display: flex;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #E9EBDE;
+  background: #f7f7f2;
+  flex-wrap: wrap;
+}
+.geo-filter-bar label {
+  font-size: 0.98rem;
+  color: #5D7C3A;
+  font-weight: 500;
+  margin-right: 0.3rem;
+}
+.geo-filter-bar select,
+.geo-filter-bar input[type="date"],
+.geo-filter-bar input[type="search"] {
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.4rem;
+  border: 1px solid #E9EBDE;
+  font-size: 1rem;
+  background: #fff;
+  margin-right: 0.5rem;
+}
+
+/* =====================
+   Geotagging Outbreak Cards
+   ===================== */
+.geo-outbreak-card {
+  background: #fff;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 8px rgba(93,124,58,0.07);
+  padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+  margin-bottom: 0.7rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: relative;
+  border-left: 5px solid #8BAA61;
+  animation: geoCardIn 0.22s cubic-bezier(.77,0,.18,1);
+}
+@keyframes geoCardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+.geo-outbreak-card .geo-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+.geo-outbreak-card .geo-card-title {
+  font-weight: 700;
+  color: #5D7C3A;
+  font-size: 1.08rem;
+}
+.geo-outbreak-card .geo-card-severity {
+  font-size: 0.98rem;
+  font-weight: 600;
+  border-radius: 0.7rem;
+  padding: 2px 12px;
+  margin-left: 0.5rem;
+  text-transform: capitalize;
+}
+.geo-card-severity.high {
+  background: #FF6B6B;
+  color: #fff;
+}
+.geo-card-severity.medium {
+  background: #FFD93D;
+  color: #333;
+}
+.geo-card-severity.low {
+  background: #8BAA61;
+  color: #fff;
+}
+.geo-outbreak-card .geo-card-disease {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.1rem;
+}
+.geo-outbreak-card .geo-card-date {
+  font-size: 0.97rem;
+  color: #888;
+}
+.geo-outbreak-card .geo-card-notes {
+  font-size: 0.97rem;
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+.geo-outbreak-card .geo-card-more {
+  align-self: flex-end;
+  margin-top: 0.3rem;
+  background: #E9EBDE;
+  color: #5D7C3A;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.geo-outbreak-card .geo-card-more:hover {
+  background: #dfe3cd;
+}
