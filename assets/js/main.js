@@ -271,23 +271,203 @@ document.addEventListener('DOMContentLoaded', setupThemeToggle);
       }, 3000);
     });
     
-    // Weather data - simulated API call
-    const loadWeatherData = () => {
-      // In a real app, this would fetch from a weather API
-      setTimeout(() => {
-        document.getElementById('weatherLocation').textContent = 'Your Location';
-        document.getElementById('weatherTemp').textContent = '24°C';
-        document.getElementById('weatherCondition').textContent = 'Partly Cloudy';
-        document.getElementById('weatherHumidity').textContent = 'Humidity: 78%';
-        document.getElementById('weatherWind').textContent = 'Wind: 5 km/h';
+    // Weather data - Real API implementation with location detection
+    const loadWeatherData = async () => {
+      try {
+        // Show loading state
+        document.getElementById('weatherLocation').textContent = 'Detecting location...';
+        document.getElementById('weatherTemp').textContent = '--°C';
+        document.getElementById('weatherCondition').textContent = '--';
+        document.getElementById('weatherHumidity').textContent = 'Humidity: --%';
+        document.getElementById('weatherWind').textContent = 'Wind: -- km/h';
         
-        // Show weather alert based on conditions
-        const humidity = 78;
-        if (humidity > 75) {
-          document.getElementById('weatherAlert').classList.remove('hidden');
-        }
-      }, 1000);
+        // Get user's location
+        const position = await getCurrentPosition();
+        const { latitude, longitude } = position.coords;
+        
+        // Get location name from coordinates
+        const locationName = await getLocationName(latitude, longitude);
+        document.getElementById('weatherLocation').textContent = locationName;
+        
+        // Fetch weather data
+        const weatherData = await fetchWeatherData(latitude, longitude);
+        
+        // Update weather display
+        updateWeatherDisplay(weatherData);
+        
+        // Check for weather alerts
+        checkWeatherAlerts(weatherData);
+        
+      } catch (error) {
+        console.error('Weather data error:', error);
+        // Fallback to default values
+        document.getElementById('weatherLocation').textContent = 'Location unavailable';
+        document.getElementById('weatherTemp').textContent = '--°C';
+        document.getElementById('weatherCondition').textContent = '--';
+        document.getElementById('weatherHumidity').textContent = 'Humidity: --%';
+        document.getElementById('weatherWind').textContent = 'Wind: -- km/h';
+      }
     };
+
+    // Get current position using Geolocation API
+    const getCurrentPosition = () => {
+      return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject(new Error('Geolocation is not supported by this browser'));
+          return;
+        }
+        
+        navigator.geolocation.getCurrentPosition(
+          (position) => resolve(position),
+          (error) => {
+            console.error('Geolocation error:', error);
+            reject(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutes
+          }
+        );
+      });
+    };
+
+    // Get location name from coordinates using reverse geocoding
+    const getLocationName = async (latitude, longitude) => {
+      try {
+        const response = await fetch(
+          `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=YOUR_OPENWEATHER_API_KEY`
+        );
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch location name');
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+          const location = data[0];
+          // Return city name, or locality, or country as fallback
+          return location.name || location.locality || location.country || 'Unknown Location';
+        }
+        
+        return 'Unknown Location';
+      } catch (error) {
+        console.error('Location name error:', error);
+        return 'Your Location';
+      }
+    };
+
+    // Fetch weather data from OpenWeatherMap API
+    const fetchWeatherData = async (latitude, longitude) => {
+      try {
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=YOUR_OPENWEATHER_API_KEY`
+        );
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch weather data');
+        }
+        
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Weather API error:', error);
+        throw error;
+      }
+    };
+
+    // Update weather display with real data
+    const updateWeatherDisplay = (weatherData) => {
+      const temp = Math.round(weatherData.main.temp);
+      const condition = weatherData.weather[0].main;
+      const humidity = weatherData.main.humidity;
+      const windSpeed = Math.round(weatherData.wind.speed * 3.6); // Convert m/s to km/h
+      
+      // Update temperature and condition
+      document.getElementById('weatherTemp').textContent = `${temp}°C`;
+      document.getElementById('weatherCondition').textContent = condition;
+      
+      // Update humidity
+      document.getElementById('weatherHumidity').textContent = `Humidity: ${humidity}%`;
+      
+      // Update wind speed
+      document.getElementById('weatherWind').textContent = `Wind: ${windSpeed} km/h`;
+      
+      // Update weather icon based on condition
+      updateWeatherIcon(weatherData.weather[0].icon);
+    };
+
+    // Update weather icon based on weather condition
+    const updateWeatherIcon = (iconCode) => {
+      const weatherIcon = document.querySelector('.weather-widget i.fas.fa-cloud-sun');
+      if (!weatherIcon) return;
+      
+      // Map OpenWeatherMap icon codes to Font Awesome icons
+      const iconMap = {
+        '01d': 'fa-sun',           // Clear sky day
+        '01n': 'fa-moon',          // Clear sky night
+        '02d': 'fa-cloud-sun',     // Few clouds day
+        '02n': 'fa-cloud-moon',    // Few clouds night
+        '03d': 'fa-cloud',         // Scattered clouds
+        '03n': 'fa-cloud',         // Scattered clouds
+        '04d': 'fa-clouds',        // Broken clouds
+        '04n': 'fa-clouds',        // Broken clouds
+        '09d': 'fa-cloud-rain',    // Shower rain
+        '09n': 'fa-cloud-rain',    // Shower rain
+        '10d': 'fa-cloud-sun-rain', // Rain day
+        '10n': 'fa-cloud-moon-rain', // Rain night
+        '11d': 'fa-bolt',          // Thunderstorm
+        '11n': 'fa-bolt',          // Thunderstorm
+        '13d': 'fa-snowflake',     // Snow
+        '13n': 'fa-snowflake',     // Snow
+        '50d': 'fa-smog',          // Mist
+        '50n': 'fa-smog'           // Mist
+      };
+      
+      const newIcon = iconMap[iconCode] || 'fa-cloud-sun';
+      weatherIcon.className = `fas ${newIcon} text-3xl text-yellow-500 mr-3`;
+    };
+
+    // Check weather conditions for disease risk alerts
+    const checkWeatherAlerts = (weatherData) => {
+      const humidity = weatherData.main.humidity;
+      const temp = weatherData.main.temp;
+      const weatherAlert = document.getElementById('weatherAlert');
+      const alertText = document.getElementById('alertText');
+      
+      // Hide alert by default
+      weatherAlert.classList.add('hidden');
+      
+      // Check for high humidity (favorable for disease development)
+      if (humidity > 75) {
+        weatherAlert.classList.remove('hidden');
+        alertText.textContent = 'High humidity detected. Conditions favor disease development. Monitor crops closely and consider preventive measures.';
+        return;
+      }
+      
+      // Check for moderate humidity with warm temperature
+      if (humidity > 60 && temp > 20) {
+        weatherAlert.classList.remove('hidden');
+        alertText.textContent = 'Moderate humidity and warm temperature detected. Consider preventive spraying for disease control.';
+        return;
+      }
+      
+      // Check for very high temperature
+      if (temp > 30) {
+        weatherAlert.classList.remove('hidden');
+        alertText.textContent = 'High temperature detected. Ensure adequate irrigation and monitor for heat stress in crops.';
+        return;
+      }
+    };
+
+    // Refresh weather data (can be called periodically)
+    const refreshWeather = () => {
+      loadWeatherData();
+    };
+
+    // Auto-refresh weather every 30 minutes
+    setInterval(refreshWeather, 30 * 60 * 1000);
     
     // History functionality
     const saveToHistory = (item) => {

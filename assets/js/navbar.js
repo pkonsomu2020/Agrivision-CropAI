@@ -2,6 +2,21 @@
 // Handles navbar interactivity: hamburger toggle, active state, notification badge, and responsive behavior
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Inject settings modal if not present
+  if (!document.getElementById('settingsModal')) {
+    fetch('components/settings.html')
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Dynamically load settings.js after modal is injected
+        if (!window.__settingsScriptLoaded) {
+          var script = document.createElement('script');
+          script.src = 'assets/js/settings.js';
+          script.onload = function() { window.__settingsScriptLoaded = true; };
+          document.body.appendChild(script);
+        }
+      });
+  }
   // Hamburger menu toggle
   const hamburger = document.getElementById('navbar-hamburger');
   const navLinks = document.getElementById('navbar-links');

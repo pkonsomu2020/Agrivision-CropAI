@@ -18,22 +18,10 @@
   </div>
 
   <div id="navbar-container"></div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      fetch('components/navbar.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('navbar-container').innerHTML = html;
-          // Dynamically load navbar.js after navbar is injected
-          var script = document.createElement('script');
-          script.src = 'assets/js/navbar.js';
-          document.body.appendChild(script);
-        });
-    });
-  </script>
+  <!-- ...existing code... -->
 
   <!-- Main Content -->
-  <main class="container mx-auto px-4 py-6">
+   <main class="container mx-auto px-4 py-6" style="margin-top: 72px;">
     
     <!-- Weather Widget -->
     <div class="mb-8">
@@ -50,6 +38,9 @@
           <span class="mr-3" id="weatherHumidity">Humidity: --%</span>
           <i class="fas fa-wind text-gray-500 mr-1"></i>
           <span id="weatherWind">Wind: -- km/h</span>
+          <button id="refreshWeather" class="ml-3 p-2 text-gray-500 hover:text-green-600 transition-colors" title="Refresh weather data">
+            <i class="fas fa-sync-alt"></i>
+          </button>
         </div>
       </div>
       
@@ -365,50 +356,7 @@
     </div>
   </div>
 
-  <!-- Settings Modal (Initially Hidden) -->
-  <div id="settingsModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg max-w-md w-full p-6 modal-content">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold" id="settingsTitle">Settings</h2>
-        <button id="closeSettings" class="text-gray-500 hover:text-gray-700">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="mb-4">
-        <h3 class="font-semibold mb-2" id="notificationTitle">Notifications</h3>
-        <div class="flex items-center">
-          <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="notificationToggle" class="sr-only peer">
-            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
-            <span class="ml-3 text-sm font-medium text-gray-900" id="notificationText">Seasonal threat notifications</span>
-          </label>
-        </div>
-      </div>
-      
-      <div class="mb-4">
-        <h3 class="font-semibold mb-2" id="dataStorageTitle">Data Storage</h3>
-        <div class="flex items-center">
-          <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="storageToggle" class="sr-only peer" checked>
-            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
-            <span class="ml-3 text-sm font-medium text-gray-900" id="dataStorageText">Store scan history locally</span>
-          </label>
-        </div>
-      </div>
-      
-      <div class="mb-4">
-        <h3 class="font-semibold mb-2" id="aboutTitle">About CropGuard AI</h3>
-        <p class="text-sm text-gray-600" id="aboutText">
-          CropGuard AI is an AI-powered tool that helps farmers identify plant diseases and get treatment recommendations. Version 1.0.
-        </p>
-      </div>
-      
-      <button class="btn-primary w-full py-2 rounded-lg mt-2" id="saveSettingsBtn">
-        <span id="saveSettingsText">Save Settings</span>
-      </button>
-    </div>
-  </div>
+  <!-- ...existing code... (removed duplicate static settings modal) ... -->
 
   <!-- Treatment Modal (Initially Hidden) -->
   <div id="treatmentModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
@@ -550,7 +498,44 @@
     </div>
   </div>
   
+  <script src="config.js"></script>
   <script src="index.js"></script>
+  <script src="assets/js/weather.js"></script>
+
+  <!-- Dynamically inject navbar and settings modal after DOM is ready -->
+  <script>
+    // Run after all HTML is parsed
+    window.addEventListener('DOMContentLoaded', function () {
+      // Inject navbar
+      fetch('components/navbar.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('navbar-container').innerHTML = html;
+          // Dynamically load navbar.js after navbar is injected
+          var script = document.createElement('script');
+          script.src = 'assets/js/navbar.js';
+          document.body.appendChild(script);
+        });
+
+      // Inject settings modal if not present
+      if (!document.getElementById('settingsModal')) {
+        fetch('components/settings.html')
+          .then(res => res.text())
+          .then(html => {
+            document.body.insertAdjacentHTML('beforeend', html);
+            // Always reload settings.js after modal is injected to ensure event binding
+            var script = document.createElement('script');
+            script.src = 'assets/js/settings.js';
+            document.body.appendChild(script);
+          });
+      } else {
+        // If modal already exists, reload settings.js to ensure event binding
+        var script = document.createElement('script');
+        script.src = 'assets/js/settings.js';
+        document.body.appendChild(script);
+      }
+    });
+  </script>
 </body>
 </html>
 
